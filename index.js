@@ -1,5 +1,5 @@
 const playButton = document.getElementById('playBtn');
-const divElement = document.getElementById("playground");
+const playgroundDiv = document.getElementById("playground");
 const counterDiv = document.getElementById("letterCounter");
 const characterDiv = document.getElementById("character");
 
@@ -17,9 +17,9 @@ playButton.addEventListener('click', () => {
     counterDiv.innerHTML = `${countOfRndCharInRndString}`;
     
     const arrayOfStrings = [...stringGenerated];
-    divElement.innerHTML = " ";
+    playgroundDiv.innerHTML = " ";
     
-    
+    playgroundDiv.style.fontSize = `${someRandomFontSize(20, 60)}px`;
 
     for (var i = 0 ; i < stringGenerated.length ; i++)
     {
@@ -34,7 +34,7 @@ playButton.addEventListener('click', () => {
         letterBox.id = `${element}-${index}`;
         letterBox.className = 'item';
         
-        divElement.appendChild(letterBox);
+        playgroundDiv.appendChild(letterBox);
 
         letterBox.addEventListener('click', (event) => {
 
@@ -109,5 +109,9 @@ function someRandomPos(rndString)
     return (Math.floor(Math.random() * (max - min + 1) ) + min);
 }
 
+function someRandomFontSize(minFontSize, maxFontSize)
+{
+    return (Math.floor(Math.random() * (maxFontSize - minFontSize + 1) ) + minFontSize);
+}
 
  

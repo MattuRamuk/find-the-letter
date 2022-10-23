@@ -4,10 +4,11 @@
     text-align: center;
     text-transform: uppercase;
     height: calc(25vh);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }   
 
 #playground {
-    font-size: 50px;
+
     display: inline-block;
     border: 2px solid #000;
     width: 100%;
