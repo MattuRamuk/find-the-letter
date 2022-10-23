@@ -1,11 +1,13 @@
-const button = document.getElementById('playBtn');
+const playButton = document.getElementById('playBtn');
 const divElement = document.getElementById("playground");
 const counterDiv = document.getElementById("letterCounter");
 const characterDiv = document.getElementById("character");
 
 
 
-button.addEventListener('click', () => {
+
+playButton.addEventListener('click', () => {
+
     const stringGenerated = generateRandomString().toUpperCase();
     var charAtRandom = pickCharAtRandom(stringGenerated);
 
@@ -14,34 +16,51 @@ button.addEventListener('click', () => {
     let countOfRndCharInRndString = pleaseCount(charAtRandom, stringGenerated);
     counterDiv.innerHTML = `${countOfRndCharInRndString}`;
     
-    console.log('count -> ', count)
     const arrayOfStrings = [...stringGenerated];
     divElement.innerHTML = " ";
     
-    arrayOfStrings.forEach((element) => {
-       
-        let letterBox = document.createElement('span');
+    
+
+    for (var i = 0 ; i < stringGenerated.length ; i++)
+    {
+        const randomPos = someRandomPos(stringGenerated);
+        arrayOfStrings.splice(randomPos, 0, " ");
+    }
+
+    arrayOfStrings.forEach((element, index) => {
+        
+        let letterBox = document.createElement('div');
         letterBox.innerHTML += `${element}`;
-        letterBox.id = `${element}`;
+        letterBox.id = `${element}-${index}`;
+        letterBox.className = 'item';
+        
         divElement.appendChild(letterBox);
+
         letterBox.addEventListener('click', (event) => {
-            
-            if(event.target.id == charAtRandom)
-            {
-                
-                console.log('MATCH')
+
+        let onlyTheChar = event.target.id.split('-')[0];
+        if (onlyTheChar == charAtRandom) {
+
+            if (countOfRndCharInRndString > 0) {
+
                 countOfRndCharInRndString--;
                 counterDiv.innerHTML = `${countOfRndCharInRndString}`;
-
-                element = document.getElementById(letterBox.id);
-                element.parentNode.removeChild(element);
-                
-                
+    
+                node = document.getElementById(event.target.id);
+                //node.parentNode.removeChild(node);
+                node.style.color = "green";
+                node.style.pointerEvents = "none";
             }
-            else {
-                console.log('NOT MATCH')
-            }
+            
+        }
+        else {
 
+            node = document.getElementById(event.target.id);
+            //node.parentNode.removeChild(node);
+            node.style.color = "red";
+            node.style.pointerEvents = "none";
+        }
+            
         });
         
     });
@@ -52,8 +71,8 @@ button.addEventListener('click', () => {
 function generateRandomString()
 {
 
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-	var lenString = 40;
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXTZ0123456789";
+	var lenString = 200;
 	var randomstring = '';
 
            
@@ -68,10 +87,10 @@ function pickCharAtRandom(randomString)
 {
     const min = 0;
     const max = randomString.length;
-    var charAtRandomPos = randomString.charAt(Math.floor(Math.random() * (max - min + 1) ) + min);;
+    var charAtRandomPos = randomString.charAt(Math.floor(Math.random() * (max - min + 1) ) + min);
     if(charAtRandomPos == '')
     {
-        charAtRandomPos = randomString.charAt(Math.floor(Math.random() * (max - min + 1) ) + min);;
+        charAtRandomPos = randomString.charAt(Math.floor(Math.random() * (max - min + 1) ) + min);
     }
         
     return charAtRandomPos;
@@ -80,6 +99,14 @@ function pickCharAtRandom(randomString)
 function pleaseCount(rndChar, rndString)
 {
     return count = [...rndString].filter(x => x === rndChar).length;
+}
+
+
+function someRandomPos(rndString)
+{
+    const min = 0;
+    const max = rndString.length;
+    return (Math.floor(Math.random() * (max - min + 1) ) + min);
 }
 
 
